@@ -66,6 +66,6 @@ Contributions are welcome! Feel free to submit issues, feature requests, or pull
 This project is licensed under the MIT License. See the LICENSE file for more details.
 
 ## 📄 Video
-<iframe width="560" height="315" src="https://www.youtube.com/embed/tP4EB-9o8is?si=NtPtlmGmMMjD_Bzt" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+[Demo: Adriana Voice Bot](https://www.youtube.com/watch?v=tP4EB-9o8is)
 
 Made with ❤️ by Manel Comiche.

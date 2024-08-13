@@ -1,0 +1,8 @@
+# FOR THE TEST FILES
+/test
+
+# SECRET TOKENS
+.env
+
+# AUDIO TTS RESULTS
+output.mp3

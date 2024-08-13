@@ -19,9 +19,9 @@ To run the current transcription script, you'll need to install the necessary Py
 
 ## 🛠️ Installation
 
-1. **Clone the repository** (Replace with your repo link):
+1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/ADRIANA.git
+   git clone https://github.com/manelcomiche/adriana.git
    cd ADRIANA
    ```
 

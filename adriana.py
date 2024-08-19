@@ -7,6 +7,8 @@ from discord.ext import commands
 from dotenv import load_dotenv
 import os
 
+from gtts import gTTS
+
 # Load environment variables from .env file
 load_dotenv()
 
@@ -108,33 +110,32 @@ async def get_gpt_response(prompt: str):
             return data["choices"][0]["message"]["content"]
 
 async def text_to_speech(text: str, voice_channel, language='en'):
-    # Start the timer to measure the TTS API response time
+    # Start the timer to measure the TTS process time
     start_time = time.monotonic()
 
-    tts_url = f"https://tts-api.netlify.app/?text={text.replace(' ', '%20')}&lang={language}"
-    async with aiohttp.ClientSession() as session:
-        async with session.get(tts_url) as resp:
-            if resp.status != 200:
-                return
-            audio_data = await resp.read()
+    # Generate TTS using gTTS
+    tts = gTTS(text=text, lang=language)
+    tts.save("output.mp3")
 
-    # Measure and print the time taken for the TTS API call
+    # Measure and print the time taken for the TTS generation
     end_time = time.monotonic()
-    print(f"TTS API call took {end_time - start_time:.2f} seconds")
+    print(f"TTS generation took {end_time - start_time:.2f} seconds")
 
+    # Connect to the voice channel
     if not voice_channel.guild.voice_client:
         vc = await voice_channel.connect()
     else:
         vc = voice_channel.guild.voice_client
 
-    with open("output.mp3", "wb") as f:
-        f.write(audio_data)
-
+    # Play the generated audio file
     vc.play(discord.FFmpegPCMAudio("output.mp3"))
     while vc.is_playing():
         await asyncio.sleep(1)
     
     await vc.disconnect()
+
+    # Clean up the audio file after playing
+    os.remove("output.mp3")
 
 async def process_voice_message(message):
     attachment = message.attachments[0]
@@ -155,7 +156,7 @@ async def process_voice_message(message):
             print(gpt_response)
         else:
             # Get the GPT response for non-weather-related queries
-            gpt_response = await get_gpt_response('Respond as a simple voice assistant to this message: ' + transcription)
+            gpt_response = await get_gpt_response('Answer with a brief text as a simple voice assistant to this message, try to be concise: ' + transcription)
         
         if not gpt_response:
             await message.channel.send("I couldn't get a response from GPT.")
